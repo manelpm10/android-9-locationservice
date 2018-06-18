@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="es.pue.android.locationservice">
 
+    <!-- Max. accuracy permission (GPS) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- Specify my app needs GPS in the device. This is mandatory after API 21. -->
+    <uses-feature android:name="android.hardware.location.gps"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
