@@ -40,8 +40,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         this.initService();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(conn);
     }
 
     private void initService() {
@@ -51,11 +61,5 @@ public class MainActivity extends AppCompatActivity {
 
     public void getLocationData(View view) {
         Log.d("BIND_SERVICE", "getLocationData: "+locationBindService.getLocations());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(conn);
     }
 }
