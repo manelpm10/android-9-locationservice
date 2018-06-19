@@ -12,8 +12,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    // Maps variables.
+    private GoogleMap map;
+    private boolean isMapReady = false;
+
+    // Locatino binded service variables.
     private LocationService locationBindService;
     private ServiceConnection conn = new ServiceConnection() {
         @Override
@@ -41,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.frMap);
+        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -62,8 +77,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void getLocationData(View view) {
         Location lastLocation = locationBindService.getLastLocation();
-        if (null != lastLocation) {
-            Log.d("BIND_SERVICE", String.format("getLocationData: %s,%s", lastLocation.getLatitude(), lastLocation.getLongitude()));
+        if (null != lastLocation && isMapReady) {
+            LatLng bcnCoordinates = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
+            CameraPosition target = CameraPosition.builder().target(bcnCoordinates).zoom(16).build();
+            map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        isMapReady = true;
+        map = googleMap;
+
+        LatLng bcnCoordinates = new LatLng(41.3870154,2.1678531);
+        CameraPosition target = CameraPosition.builder().target(bcnCoordinates).zoom(16).tilt(65).build();
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
     }
 }
