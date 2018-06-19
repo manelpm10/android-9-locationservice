@@ -4,8 +4,14 @@
 
     <!-- Max. accuracy permission (GPS first but if not available can ask to wifi or celular) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <!-- This permission is only tu use wifi or celular, less accuracy but less battery usage -->
     <!--uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /-->
+
+    <!-- Permissions for use MAPS -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <!-- Specify my app needs GPS in the device. This is mandatory after API 21. -->
     <uses-feature android:name="android.hardware.location.gps"/>
 
@@ -27,7 +33,12 @@
         <service
             android:name=".LocationService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false"/>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="<YOUR-API-KEY-HERE>"
+            />
     </application>
 
 </manifest>
