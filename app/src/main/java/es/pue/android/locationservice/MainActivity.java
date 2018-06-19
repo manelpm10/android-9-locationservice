@@ -16,8 +16,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -78,8 +80,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void getLocationData(View view) {
         Location lastLocation = locationBindService.getLastLocation();
         if (null != lastLocation && isMapReady) {
-            LatLng bcnCoordinates = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
-            CameraPosition target = CameraPosition.builder().target(bcnCoordinates).zoom(16).build();
+            LatLng coordinates = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
+            CameraPosition target = CameraPosition.builder().target(coordinates).zoom(16).build();
+            MarkerOptions marker = new MarkerOptions().position(coordinates);
+
+            map.addMarker(marker);
             map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
         }
     }
@@ -88,6 +93,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         isMapReady = true;
         map = googleMap;
+
+        UiSettings mUiSettings = map.getUiSettings();
+
+        // Keep the UI Settings state in sync with the checkboxes.
+        mUiSettings.setZoomControlsEnabled(true);
+        mUiSettings.setCompassEnabled(true);
+        mUiSettings.setMyLocationButtonEnabled(true);
+        //map.setMyLocationEnabled(true);
+        mUiSettings.setScrollGesturesEnabled(true);
+        mUiSettings.setZoomGesturesEnabled(true);
+        mUiSettings.setTiltGesturesEnabled(true);
+        mUiSettings.setRotateGesturesEnabled(true);
 
         LatLng bcnCoordinates = new LatLng(41.3870154,2.1678531);
         CameraPosition target = CameraPosition.builder().target(bcnCoordinates).zoom(16).tilt(65).build();
