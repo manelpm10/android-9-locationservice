@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.location.Location;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getLocationData(View view) {
-        Log.d("BIND_SERVICE", "getLocationData: "+locationBindService.getLocations());
+        Location lastLocation = locationBindService.getLastLocation();
+        if (null != lastLocation) {
+            Log.d("BIND_SERVICE", String.format("getLocationData: %s,%s", lastLocation.getLatitude(), lastLocation.getLongitude()));
+        }
     }
 }

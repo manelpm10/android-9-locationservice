@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="es.pue.android.locationservice">
 
-    <!-- Max. accuracy permission (GPS) -->
+    <!-- Max. accuracy permission (GPS first but if not available can ask to wifi or celular) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- This permission is only tu use wifi or celular, less accuracy but less battery usage -->
+    <!--uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /-->
     <!-- Specify my app needs GPS in the device. This is mandatory after API 21. -->
     <uses-feature android:name="android.hardware.location.gps"/>
 
